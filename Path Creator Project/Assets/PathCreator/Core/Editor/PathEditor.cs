@@ -141,6 +141,18 @@ namespace PathCreationEditor {
                                     creator.bezierPath.SetAnchorNormalAngle (anchorIndex, newAngle);
                                 }
                             }
+                            if (GUILayout.Button("Align to surface"))
+                            {
+                                var rayOrigin = new Vector3(transformPos.x + currentPosition.x,
+                                                                5000,
+                                                                currentPosition.z + transformPos.z);
+                                if(Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit))
+                                {
+                                    var alignedPosition = new Vector3(currentPosition.x, hit.point.y - transformPos.y, currentPosition.z);
+                                    Undo.RecordObject(creator, "Move point");
+                                    creator.bezierPath.MovePoint(handleIndexToDisplayAsTransform, alignedPosition);
+                                }
+                            }
                         }
                     }
 
